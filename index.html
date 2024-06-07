@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unzipper</title>
+    <script src="code.js"></script>
+  </head>
+  <body>
+    <h1>Upload a ZIP file to Unzip</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".zip" />
+      <input type="submit" value="Upload" />
+    </form>
+    <p id="message"></p>
+    <script>
+      document.getElementById("uploadForm").onsubmit = async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const message = await response.text();
+        document.getElementById("message").innerText = message;
+      };
+    </script>
+  </body>
+</html>
